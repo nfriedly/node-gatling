@@ -4,6 +4,8 @@ A simple node.js script that turns a single-threaded server into a multi-threade
 
 Plays nice with Express and similar servers.
 
+[![Build Status](https://travis-ci.org/nfriedly/node-gatling.png?branch=master)](https://travis-ci.org/nfriedly/node-gatling)
+
 Installation
 ------------
 
