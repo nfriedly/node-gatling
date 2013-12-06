@@ -1,0 +1,35 @@
+{
+  "name": "gatling",
+  "version": "0.0.1",
+  "description": "A simple node.js script that turns a single-threaded server into a multi-threaded server with automatic restarting.",
+  "main": "gatling.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nfriedly/node-gatling"
+  },
+  "keywords": [
+    "server",
+    "fork",
+    "cluster",
+    "monitor",
+    "forever"
+  ],
+  "author": "Nathan Friedly - http://nfriedly.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nfriedly/node-gatling/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "request": "~2.29.0"
+  },
+  "dependencies": {
+    "optimist": "~0.6.0"
+  },
+  "bin": {
+    "gatling": "./gatling.js"
+  }
+}
