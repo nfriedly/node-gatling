@@ -3,6 +3,14 @@
 /**
  * Gatling: makes your node server multicore and automatically restarts failed processes
  */
+ 
+ 
+// monitoring
+// load newrelic for monitoring, but only if there's a license key
+// This must be the first dependency loaded to work correctly.
+if (process.env.NEW_RELIC_LICENSE_KEY) {
+    require('newrelic');
+}
 
 var cluster = require('cluster'),
     argv = require('optimist')
