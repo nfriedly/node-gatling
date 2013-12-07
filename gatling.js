@@ -14,7 +14,7 @@ var cluster = require('cluster'),
         .describe('threads', 'how manu threads to run (default is one per cpu)')
         .demand('_')
         .argv,
-    log = argv.q ? function(){} : console.log.bind(console);
+    log = argv.q ? function() {} : console.log.bind(console);
 
 // master vars and methods
 var numThreads = argv.threads || require('os').cpus().length,
@@ -110,7 +110,7 @@ if (cluster.isMaster) {
     cluster.on('exit', function( /*deadWorker*/ ) {
         createWorker();
     });
-    
+
     log(util.format('Gatling master thread setting up workers to run %s and listen on port %s', appFile, port));
 
 } else {
@@ -131,6 +131,6 @@ if (cluster.isMaster) {
         process.send({
             type: 'ready'
         });
-        log(util.format('Gatling worker thread %s up and listening',cluster.worker.id));
+        log(util.format('Gatling worker thread %s up and listening', cluster.worker.id));
     });
 }

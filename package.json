@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run jshint && npm run spec",
     "spec": "mocha",
-    "beautify": "js-beautify --replace ./*.js ./lib/*.js ./test/*.js",
+    "beautify": "js-beautify --replace ./*.js ./test/*.js",
     "jshint": "jshint ./ --exclude node_modules/"
   },
   "repository": {

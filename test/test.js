@@ -14,14 +14,14 @@ describe("Gatling", function() {
             g.kill();
         });
     });
-    
+
     it("should allow the app to respond to requests", function(done) {
         var g = cp.fork(gatlingPath, ['./test/app.js', '--quiet']).once('message', function(msg) {
             request('http://localhost:8080/ok', function(err, data) {
                 if (err) return done(err);
-                
+
                 assert('ok', data);
-                
+
                 g.on('close', function() {
                     done();
                 });
@@ -29,41 +29,41 @@ describe("Gatling", function() {
             });
         });
     });
-    
+
     it("should not allow errors in one request to kill another request", function(done) {
         var g = cp.fork(gatlingPath, ['./test/app.js', '--quiet']).once('message', function(msg) {
             request('http://localhost:8080/slow', function(err, data) {
                 if (err) return done(err);
-                
+
                 assert('ok', data);
-                
+
                 g.on('close', function() {
                     done();
                 });
                 g.kill();
             });
-            
+
             request('http://localhost:8080/error', function(err, data) {
-                
+
             });
         });
     });
-    
+
     it("should bring up new workers after one dies", function(done) {
         var g = cp.fork(gatlingPath, ['./test/app.js', '--quiet']).once('message', function(msg) {
             request('http://localhost:8080/error', function(err, data) {
                 request('http://localhost:8080/ok', function(err, data) {
                     if (err) return done(err);
-                
+
                     assert('ok', data);
-                
+
                     g.on('close', function() {
                         done();
                     });
                     g.kill();
                 });
             });
-            
+
         });
     });
 });
