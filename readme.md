@@ -1,6 +1,6 @@
 Gatlin
 ======
-A simple node.js script that turns a single-threaded server into a multi-threaded server with automatic restarting.
+A simple node.js script that turns a single-threaded server into a multi-threaded\* server with automatic restarting. (\* Technically, you can't do multi-threaded node.js code, so call it "multi-process" if you're a pendantic asshole ;)
 
 Plays nice with Express and similar servers.
 
