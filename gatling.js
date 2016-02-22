@@ -19,18 +19,19 @@ var cluster = require('cluster'),
         .describe('p', 'Port number')
         .alias('q', 'quiet')
         .describe('q', 'Silence all non-error output')
-        .describe('threads', 'how manu threads to run (default is one per cpu)')
+        .describe('processes', 'how many threads to run (default is one per cpu core)')
+        .alias('processes', 'threads') // for backwards compatibility / ease of use
         .demand('_')
         .argv,
     log = argv.q ? function() {} : console.log.bind(console);
 
 // master vars and methods
-var numThreads = argv.threads || require('os').cpus().length,
+var numWorkers = argv.threads || require('os').cpus().length,
     childCount = 0,
     startTime = Date.now();
 
 function createWorker() {
-    if (Date.now() - startTime < 300 && childCount > numThreads) {
+    if (Date.now() - startTime < 300 && childCount > numWorkers) {
         console.error("\nToo many instant deaths, shutting down.\n");
         process.exit(1);
     }
@@ -110,7 +111,7 @@ function die() {
 
 if (cluster.isMaster) {
     // if we're in the master process, create one worker for each cpu core
-    for (var i = 0; i < numThreads; i++) {
+    for (var i = 0; i < numWorkers; i++) {
         createWorker();
     }
 

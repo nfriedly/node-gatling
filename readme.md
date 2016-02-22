@@ -11,35 +11,81 @@ Installation
 
     npm install --save gatlin
 
-Usage
+Setup
 -----
+
+Instead of starting the server, simply export the handler function and then call gatlin with the path to your `server.js` or `app.js`.
+
+(The reason this is needed is that Gatlin runs each request inside a domain. This prevents errors in one request from interfering with any other requests.)
+
+### Express
+
+Just change
+
+ ```js
+ app.listen(port)
+ ```
+ 
+ to
+
+```js
+module.exports = app;
+```
+
+### HTTP
 
 Your app should export the function that gets passed to `http.createServer` and not create the server itself.
 
 For example, say your `app.js` looks like this:
 
-    var http = require('http');
-    http.createServer(function (req, res) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello World\n');
-    }).listen(1337);
+```js
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(1337);
+```
     
 Change it to this:
 
-    module.exports = function (req, res) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello World\n');
-    });
+```js
+module.exports = function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+});
+```
 
-And then run the following command:
+### `package.json`
 
-    PORT=1337 ./node_modules/bin/gatlin app.js
-    
-That's it!
+Add a `scripts.start` entry like so:
 
-(The reason this is needed is that Gatlin runs each request inside a domain. This prevents errors in one request from interfering with any other requests.)
+```js
+{
+  //...
+  "scripts": {
+    "start": "gatling app.js"
+  }
+}
+
+Usage
+-----
+
+To start your server, run `npm start`. Or, to call gatling directly, run `./node_modules/bin/gatling app.js`
 
 Gatling automatically loads `newrelic` if the `NEW_RELIC_LICENSE_KEY` environment variable is set.
+    
+
+API
+---
+
+The following command line options are accepted
+
+`-p 1234`, `--port 1234`: defaults to the `PORT` or `VCAP_APP_PORT` environment properties, or 8080 if not set.
+`-q`, `--quiet`: silences all non-error output
+`--processes 2`: Set the number of worker processes. Defaults to one per CPU core.
+
+
+
 
 
 Todo: 
@@ -49,3 +95,7 @@ Todo:
 * more tests
 * Set up CI server
 * Improve startup error detection
+
+
+[cluster]: https://nodejs.org/api/cluster.html
+[domain]: https://nodejs.org/api/domain.html
