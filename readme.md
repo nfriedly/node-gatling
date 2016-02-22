@@ -1,6 +1,6 @@
-Gatlin
-======
-A simple node.js script that turns a single-threaded server into a multi-threaded\* server with automatic restarting. (\* Technically, you can't do multi-threaded node.js code, so call it "multi-process" if you're a pendantic asshole ;)
+Gatling
+=======
+A simple node.js script that turns a single-threaded server into a multi-process [cluster]'d server with [domain]s automatic restarting.
 
 Plays nice with Express and similar servers.
 
@@ -46,7 +46,6 @@ Todo:
 -----
 
 * Add support for just requiring the `app.js` and letting it start itself
-* Add a watch mode for development
-* Lots of tests
+* more tests
 * Set up CI server
 * Improve startup error detection
