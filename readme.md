@@ -93,7 +93,6 @@ Todo:
 
 * Add support for just requiring the `app.js` and letting it start itself
 * more tests
-* Set up CI server
 * Improve startup error detection
 
 
