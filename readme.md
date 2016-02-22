@@ -80,7 +80,7 @@ API
 
 The following command line options are accepted
 
-`-p 1234`, `--port 1234`: defaults to the `PORT` or `VCAP_APP_PORT` environment properties, or 8080 if not set.
+`-p 1234`, `--port 1234`: defaults to the `PORT` or `VCAP_APP_PORT` (bluemix) environment properties, or 8080 if not set.
 `-q`, `--quiet`: silences all non-error output
 `--processes 2`: Set the number of worker processes. Defaults to one per CPU core.
 
