@@ -19,7 +19,7 @@ var cluster = require('cluster'),
         .describe('p', 'Port number')
         .alias('q', 'quiet')
         .describe('q', 'Silence all non-error output')
-        .describe('processes', 'how many threads to run (default is one per cpu core)')
+        .describe('processes', 'how many processes to run (default is one per cpu core)')
         .alias('processes', 'threads') // for backwards compatibility / ease of use
         .demand('_')
         .argv,
