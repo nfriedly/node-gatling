@@ -55,7 +55,6 @@ function createWorker() {
 // worker vars and methods
 var http = require('http'),
     domain = require('domain'),
-    util = require('util'),
     path = require('path'),
     port = argv.port || process.env.PORT || process.env.VCAP_APP_PORT || 8080,
     appFile = path.normalize(path.join(process.cwd(), argv._[0])),
@@ -120,7 +119,7 @@ if (cluster.isMaster) {
         createWorker();
     });
 
-    log(util.format('Gatling master thread setting up workers to run %s and listen on port %s', appFile, port));
+    log('Gatling master thread setting up workers to run %s and listen on port %s', appFile, port);
 
 } else {
 
@@ -140,6 +139,6 @@ if (cluster.isMaster) {
         process.send({
             type: 'ready'
         });
-        log(util.format('Gatling worker thread %s up and listening', cluster.worker.id));
+        log('Gatling worker thread %s up and listening', cluster.worker.id);
     });
 }
