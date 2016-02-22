@@ -80,7 +80,7 @@ function handleRequest(request, response) {
             // try to send an error to the request that triggered the problem
             response.statusCode = 500;
             response.setHeader('content-type', 'text/plain');
-            response.end('Oops, there was a problem!\n');
+            response.end('Internal Server Error\n');
         } catch (er2) {
             // oh well, not much we can do at this point.
             console.error('Error sending 500!', er2.stack);
