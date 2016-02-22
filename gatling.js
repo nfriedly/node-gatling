@@ -87,8 +87,9 @@ function handleRequest(request, response) {
     });
 
     // now that we're set to handle errors, let the app actually process the request
-    d.run(app.bind(app, request, response));
-}
+    d.run(function() {
+        app(request, response);
+    });}
 
 function die() {
     // make sure we close down within 30 seconds

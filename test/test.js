@@ -66,4 +66,20 @@ describe("Gatling", function() {
 
         });
     });
+
+
+    it("should handle situations where app.bind !== Function.prototype.bind", function(done) {
+        var g = cp.fork(gatlingPath, ['./test/app-bind.js', '--quiet']).once('message', function(msg) {
+            request('http://localhost:8080/ok', function(err, data) {
+                if (err) return done(err);
+
+                assert('ok', data);
+
+                g.on('close', function() {
+                    done();
+                });
+                g.kill();
+            });
+        });
+    });
 });
