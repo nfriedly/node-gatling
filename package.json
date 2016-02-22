@@ -26,10 +26,10 @@
     "url": "https://github.com/nfriedly/node-gatling/issues"
   },
   "devDependencies": {
-    "mocha": "~1.15.1",
-    "request": "~2.29.0",
-    "jshint": "~2.3.0",
-    "js-beautify": "~1.4.2"
+    "mocha": "~2.4.5",
+    "request": "~2.69.0",
+    "jshint": "~2.9.1",
+    "js-beautify": "~1.6.2"
   },
   "dependencies": {
     "optimist": "~0.6.0"
