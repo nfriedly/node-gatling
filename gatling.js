@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+"use strict";
 /**
  * Gatling: makes your node server multicore and automatically restarts failed processes
  */
@@ -8,6 +8,7 @@
 // load newrelic for monitoring, but only if there's a license key
 // This must be the first dependency loaded to work correctly.
 if (process.env.NEW_RELIC_LICENSE_KEY) {
+  // eslint-disable-next-line node/no-missing-require
   require("newrelic");
 }
 
@@ -27,14 +28,13 @@ const cluster = require("cluster"),
   log = argv.q ? function () {} : console.log.bind(console);
 
 // master vars and methods
-let numWorkers = argv.threads || require("os").cpus().length,
-  childCount = 0,
-  startTime = Date.now();
+const numWorkers = argv.threads || require("os").cpus().length;
+let childCount = 0;
+const startTime = Date.now();
 
 function createWorker() {
   if (Date.now() - startTime < 300 && childCount > numWorkers) {
-    console.error("\nToo many instant deaths, shutting down.\n");
-    process.exit(1);
+    throw new Error("Too many instant deaths");
   }
 
   const worker = cluster.fork();
@@ -54,48 +54,31 @@ function createWorker() {
 }
 
 // worker vars and methods
-let http = require("http"),
-  domain = require("domain"),
-  path = require("path"),
-  port = argv.port || process.env.PORT || process.env.VCAP_APP_PORT || 8080,
-  appFile = path.normalize(path.join(process.cwd(), argv._[0])),
-  app = require(appFile),
-  server;
+const http = require("http");
+const path = require("path");
+const port = argv.port || process.env.PORT || process.env.VCAP_APP_PORT || 8080;
+const appFile = path.normalize(path.join(process.cwd(), argv._[0]));
+const app = require(appFile);
+let server;
 
 function handleRequest(request, response) {
-  const d = domain.create();
-  d.add(request);
-  d.add(response);
-  d.on("error", function (er) {
-    console.error("error", er.stack);
-
-    // Note: we're in dangerous territory!
-    // By definition, something unexpected occurred,
-    // which we probably didn't want.
-    // Anything can happen now!  Be very careful!
-
-    try {
-      die();
-      // try to send an error to the request that triggered the problem
+  try {
+    app(request, response);
+  } catch (err) {
+    die();
+    // try to send an error to the request that triggered the problem
+    if (!response.headersSent) {
       response.statusCode = 500;
       response.setHeader("content-type", "text/plain");
       response.end("Internal Server Error\n");
-    } catch (er2) {
-      // oh well, not much we can do at this point.
-      console.error("Error sending 500!", er2.stack);
     }
-  });
-
-  // now that we're set to handle errors, let the app actually process the request
-  d.run(function () {
-    app(request, response);
-  });
+  }
 }
 
 function die() {
   // make sure we close down within 30 seconds
   const killtimer = setTimeout(function () {
-    process.exit(1);
+    throw new Error("server failed to shut down within 30 seconds");
   }, 30000);
   // But don't keep the process open just for that!
   killtimer.unref();

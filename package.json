@@ -9,6 +9,9 @@
     "autofix": "eslint . --fix",
     "lint": "eslint ."
   },
+  "engines": {
+    "node": ">=6"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/nfriedly/node-gatling"
@@ -39,5 +42,8 @@
   },
   "bin": {
     "gatling": "gatling.js"
-  }
+  },
+  "files": [
+    "gatling.js"
+  ]
 }
