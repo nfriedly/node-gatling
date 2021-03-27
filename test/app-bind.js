@@ -1,14 +1,13 @@
-module.exports = function(req, res) {
+module.exports = function (req, res) {
+  const headers = {
+    "content-type": "text/plain",
+  };
 
-    var headers = {
-        "content-type": "text/plain"
-    };
-
-    res.writeHead(200, headers);
-    res.end('ok');
+  res.writeHead(200, headers);
+  res.end("ok");
 };
 
 // for some versions of express, app.bind is a function that throws if it doesn't like the arguments
-module.exports.bind = function() {
-    throw new Error("Bah!");
+module.exports.bind = function () {
+  throw new Error("Bah!");
 };
