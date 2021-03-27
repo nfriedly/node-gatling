@@ -4,10 +4,10 @@
   "description": "A simple node.js script that turns a single-threaded server into a multi-threaded server with automatic restarting.",
   "main": "gatling.js",
   "scripts": {
-    "test": "npm run jshint && npm run spec",
+    "test": "npm run lint && npm run spec",
     "spec": "mocha",
-    "beautify": "js-beautify --replace ./*.js ./test/*.js",
-    "jshint": "jshint ./ --exclude node_modules/"
+    "autofix": "eslint . --fix",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,15 +26,18 @@
     "url": "https://github.com/nfriedly/node-gatling/issues"
   },
   "devDependencies": {
-    "mocha": "~2.4.5",
-    "request": "~2.69.0",
-    "jshint": "~2.9.1",
-    "js-beautify": "~1.6.2"
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "mocha": "^8.3.2",
+    "prettier": "2.2.1",
+    "request": "^2.88.2"
   },
   "dependencies": {
-    "optimist": "~0.6.0"
+    "optimist": "^0.5.2"
   },
   "bin": {
-    "gatling": "./gatling.js"
+    "gatling": "gatling.js"
   }
 }
