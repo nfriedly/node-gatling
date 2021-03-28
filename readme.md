@@ -27,7 +27,7 @@ Add a `scripts.start` entry like so:
     "start": "gatling app.js"
   }
 }
-
+```
 
 Legacy Setup
 ------------
