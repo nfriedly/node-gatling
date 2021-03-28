@@ -1,8 +1,8 @@
 Gatling
 =======
-A simple node.js script that turns a single-threaded server into a multi-process [cluster]'d server with [domain]s automatic restarting.
+A simple node.js script that turns a simple single-process server into a multi-process [cluster]'d server with automatic restarting.
 
-Plays nice with Express and similar servers.
+Plays nice with Express and similar libraries.
 
 [![Build Status](https://travis-ci.org/nfriedly/node-gatling.png?branch=master)](https://travis-ci.org/nfriedly/node-gatling)
 
@@ -11,12 +11,32 @@ Installation
 
     npm install --save gatlin
 
-Setup
------
+Recommended Setup
+-----------------
+
+Instead of calling `node server.js` call `npx gatling server.js`. It will start one manager process + one worker process for each logical CPU core.
+
+### `package.json`
+
+Add a `scripts.start` entry like so:
+
+```js
+{
+  //...
+  "scripts": {
+    "start": "gatling app.js"
+  }
+}
+
+
+Legacy Setup
+------------
+
+This was the only option in v1, and is preserved for backwards-compatibility.
 
 Instead of starting the server, simply export the handler function and then call gatlin with the path to your `server.js` or `app.js`.
 
-(The reason this is needed is that Gatlin runs each request inside a domain. This prevents errors in one request from interfering with any other requests.)
+(The reason this was needed is that Gatlin ran each request inside a [domain](https://nodejs.org/api/domain.html) in v1. It prevented errors in one request from interfering with any other requests, but the API has since been deprecated.)
 
 ### Express
 
@@ -55,46 +75,27 @@ module.exports = function (req, res) {
 });
 ```
 
-### `package.json`
-
-Add a `scripts.start` entry like so:
-
-```js
-{
-  //...
-  "scripts": {
-    "start": "gatling app.js"
-  }
-}
-
 Usage
 -----
 
 To start your server, run `npm start`. Or, to call gatling directly, run `./node_modules/bin/gatling app.js`
-
-Gatling automatically loads `newrelic` if the `NEW_RELIC_LICENSE_KEY` environment variable is set.
-    
 
 API
 ---
 
 The following command line options are accepted
 
-`-p 1234`, `--port 1234`: defaults to the `PORT` or `VCAP_APP_PORT` (bluemix) environment properties, or 8080 if not set.
 `-q`, `--quiet`: silences all non-error output
 `--processes 2`: Set the number of worker processes. Defaults to one per CPU core.
+`-p 1234`, `--port 1234`: defaults to the `PORT` or `VCAP_APP_PORT` (bluemix) environment properties, or 8080 if not set. (Only applies when gatling starts the server rathern than your app.)
 
+# Changelog
 
+# v2.0.0
 
-
-
-Todo: 
------
-
-* Add support for just requiring the `app.js` and letting it start itself
-* more tests
-* Improve startup error detection
-
+* Removed Domain support
+* Removed newrellic support
+* Added support for regular app.js / server.js files that start call `listen()` themselves
 
 [cluster]: https://nodejs.org/api/cluster.html
 [domain]: https://nodejs.org/api/domain.html
