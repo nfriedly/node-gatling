@@ -96,6 +96,7 @@ The following command line options are accepted
 * Removed Domain support
 * Removed newrellic support
 * Added support for regular app.js / server.js files that start call `listen()` themselves
+* Bumped minimum Node.js version to 6.0.0
 
 [cluster]: https://nodejs.org/api/cluster.html
 [domain]: https://nodejs.org/api/domain.html
